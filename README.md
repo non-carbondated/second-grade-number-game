@@ -6,4 +6,6 @@ You then had to either add or subtract numbers from the top five tiles to equal 
 
 I thought it could be a fun exercise to code and gamify a bit by awarding more points for the more tiles you use in your equation.
 
+[Try it out](https://glvlo.csb.app/)
+
 Created with CodeSandbox
