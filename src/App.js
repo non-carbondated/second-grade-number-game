@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.css";
 
-import Tableau from "./Tableau";
+import Tableau from "./components/Tableau";
 
 export default function App() {
   return (
