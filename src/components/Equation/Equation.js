@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import classNames from "classnames";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,6 +16,16 @@ const useStyles = makeStyles((theme) => ({
     color: "#f00"
   }
 }));
+
+const propTypes = {
+  leftSide: PropTypes.array,
+  rightSide: PropTypes.number.isRequired,
+  isValid: PropTypes.bool
+}
+const defaultProps = {
+  leftSide: [],
+  isValid: false
+}
 
 const Equation = ({ leftSide, rightSide, isValid }) => {
   const classes = useStyles();
@@ -42,5 +53,7 @@ const Equation = ({ leftSide, rightSide, isValid }) => {
     </Typography>
   );
 };
+Equation.propTypes = propTypes
+Equation.defaultProps = defaultProps
 
 export default Equation;
