@@ -22,17 +22,25 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "center"
   },
-  goalCard: {
-    margin: theme.spacing(0.5),
-    width: theme.spacing(22),
+  colorPrimary: {
     background: "#06c",
-    textAlign: "center"
   },
   tableauActions: {
     display: "flex",
     justifyContent: "space-evenly",
+    alignItems: 'center',
     margin: theme.spacing(2),
-    width: theme.spacing(30)
+    width: theme.spacing(80)
+  },
+  actionButton: {
+    padding: theme.spacing(0, 3),
+    height: theme.spacing(8)
+  },
+  primaryActionButton: {
+    backgroundColor: '#06c',
+    '&:hover': {
+      backgroundColor: '#2882dc'
+    }
   }
 }));
 
@@ -144,26 +152,9 @@ const Tableau = () => {
         rightSide={targetNumber}
         isValid={isCorrect}
       />
-      <Badge
-        badgeContent={`+${2 ** activeNumbers.length} points!`}
-        color="primary"
-        invisible={activeNumbers.length === 0 || !isCorrect}
-      >
-        <Typography variant="h1">
-          {isCorrect
-            ? emojiScale.correct[activeNumbers.length - 1]
-            : activeNumbers.length === 0
-            ? emojiScale.default
-            : emojiScale.incorrect[activeNumbers.length - 1]}
-        </Typography>
-      </Badge>
-      <Card className={classes.goalCard} variant="elevation">
-        <CardContent>
-          <Typography variant="h1">{targetNumber}</Typography>
-        </CardContent>
-      </Card>
       <div className={classes.tableauActions}>
         <Button
+          className={classes.actionButton}
           variant="contained"
           color="secondary"
           endIcon={<DoubleArrowTwoToneIcon />}
@@ -172,7 +163,27 @@ const Tableau = () => {
         >
           Pass
         </Button>
+        <Badge
+          classes={{
+            colorPrimary: classes.colorPrimary
+          }}
+          badgeContent={`+${2 ** activeNumbers.length} points!`}
+          color="primary"
+          invisible={activeNumbers.length === 0 || !isCorrect}
+        >
+          <Typography variant="h1">
+            {isCorrect
+              ? emojiScale.correct[activeNumbers.length - 1]
+              : activeNumbers.length === 0
+              ? emojiScale.default
+              : emojiScale.incorrect[activeNumbers.length - 1]}
+          </Typography>
+        </Badge>
         <Button
+          className={classes.actionButton}
+          classes={{
+            containedPrimary: classes.primaryActionButton
+          }}
           variant="contained"
           color="primary"
           startIcon={<BeenhereTwoToneIcon />}

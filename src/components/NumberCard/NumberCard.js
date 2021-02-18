@@ -13,11 +13,16 @@ const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(0.5),
     width: theme.spacing(22),
-    background: "rebeccapurple",
-    textAlign: "center"
+    background: "#06c",
+    color: "#fefefe",
+    textAlign: "center",
+    transform: "scale(1)",
+    transition: "transform .2s ease-in-out"
   },
   isActive: {
-    background: "#ccc"
+    background: "#ccc",
+    color: "#06c",
+    transform: "scale(0.95)",
   },
   cardContent: {
     display: "flex",
@@ -30,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center"
   },
   cardButton: {
-    background: "rgba(255,255,255, 0.75)"
+    background: "#fefefe"
   }
 }));
 

@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#06c"
   },
   isNotValid: {
-    color: "#f00"
+    color: theme.palette.error.main
   }
 }));
 
@@ -41,7 +41,8 @@ const Equation = ({ leftSide, rightSide, isValid }) => {
   return (
     <Typography
       className={classNames(classes.root, {
-        [classes.isValid]: isValid
+        [classes.isValid]: isValid,
+        [classes.isNotValid]: leftSide.length > 0 && !isValid,
       })}
       variant="h1"
     >
