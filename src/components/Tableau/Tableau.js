@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import PropTypes from 'prop-types'
 import { makeStyles } from "@material-ui/core/styles";
 import NumberCard from "../NumberCard";
 import Equation from "../Equation";
@@ -48,25 +48,32 @@ const emojiScale = {
   default: "🤔"
 };
 
-const generateUUID = () => {
-  const S4 = function () {
-    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-  };
-  return `${S4()}${S4()}-${S4()}-${S4()}-${S4()}-${S4()}${S4()}${S4()}`;
-};
+const propTypes = {
+  points: PropTypes.number.isRequired,
+  randomFive: PropTypes.array.isRequired,
+  targetNumber: PropTypes.number.isRequired,
+  activeNumbers: PropTypes.array.isRequired,
+  onAddNumber: PropTypes.func.isRequired,
+  onSubtractNumber: PropTypes.func.isRequired,
+  onCancelNumber: PropTypes.func.isRequired,
+  onPass: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onPointReset: PropTypes.func.isRequired,
+}
 
-const generateNumber = () => Math.round(Math.random() * 10);
-
-const Tableau = () => {
+const Tableau = ({
+  points,
+  randomFive,
+  targetNumber,
+  activeNumbers,
+  onAddNumber,
+  onSubtractNumber,
+  onCancelNumber,
+  onPass,
+  onSubmit,
+  onPointReset
+}) => {
   const classes = useStyles();
-  const [points, setPoints] = useState(0);
-  const [randomFive, setRandomFive] = useState(
-    Array(5)
-      .fill()
-      .map(() => ({ id: generateUUID(), value: generateNumber() }))
-  );
-  const [targetNumber, setTargetNumber] = useState(generateNumber());
-  const [activeNumbers, setActiveNumbers] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
 
   const calculateActiveNumbers = (activeNumbers) =>
@@ -83,53 +90,15 @@ const Tableau = () => {
     }
   }, [activeNumbers, targetNumber]);
 
-  const handleAddNumber = (obj) => {
-    setActiveNumbers([
-      ...activeNumbers,
-      { id: obj.id, value: obj.value, operation: "add" }
-    ]);
-  };
-
-  const handleSubtractNumber = (obj) => {
-    setActiveNumbers([
-      ...activeNumbers,
-      { id: obj.id, value: obj.value, operation: "subtract" }
-    ]);
-  };
-
-  const handleCancelNumber = ({ id }) => {
-    setActiveNumbers(activeNumbers.filter((number) => number.id !== id));
-  };
-
   const handlePass = () => {
-    setRandomFive(
-      Array(5)
-        .fill()
-        .map(() => ({ id: generateUUID(), value: generateNumber() }))
-    );
-    setTargetNumber(generateNumber());
-    setActiveNumbers([]);
+    onPass()
     setIsCorrect(false);
-  };
+  }
 
   const handleSubmit = () => {
-    const activeNumberJSON = JSON.stringify(activeNumbers);
-
-    setPoints(points + 2 ** activeNumbers.length);
-    setRandomFive(
-      randomFive.map(({ id, value }) => {
-        if (activeNumberJSON.includes(id)) {
-          return { id: generateUUID(), value: generateNumber() };
-        }
-        return { id, value };
-      })
-    );
-    setTargetNumber(generateNumber());
-    setActiveNumbers([]);
+    onSubmit()
     setIsCorrect(false);
-  };
-
-  const handleResetPoints = () => setPoints(0);
+  }
 
   return (
     <div className={classes.root}>
@@ -139,9 +108,9 @@ const Tableau = () => {
             key={x.id}
             id={x.id}
             value={x.value}
-            onAdd={handleAddNumber}
-            onSubtract={handleSubtractNumber}
-            onCancel={handleCancelNumber}
+            onAdd={onAddNumber}
+            onSubtract={onSubtractNumber}
+            onCancel={onCancelNumber}
           />
         ))}
       </div>
@@ -197,7 +166,7 @@ const Tableau = () => {
       {points > 0 && (<Button
         size="small"
         variant="outlined"
-        onClick={handleResetPoints}
+        onClick={onPointReset}
       >
         Reset points
       </Button>
@@ -205,5 +174,6 @@ const Tableau = () => {
     </div>
   );
 };
+Tableau.propTypes = propTypes
 
 export default Tableau;
