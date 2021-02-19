@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-evenly",
     alignItems: 'center',
-    margin: theme.spacing(2),
+    margin: theme.spacing(0, 2, 2),
     width: theme.spacing(80)
   },
   actionButton: {
